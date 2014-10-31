@@ -16,6 +16,12 @@
 
 * Download software
 
+** Java
+
+   I almost forgot: you need Java. :)  You'll need the Java SDK, not just the runtime.  I just grabbed the Standard
+   Edition.  You could try the Enterprise Edition, but that might entail more complexity than is really needed at this
+   point (Glassfish, etc.).
+
 ** Eclipse
 
    Nice IDE.  Some people swear by NetBeans, I like Eclipse (mostly because I've been using it for 15 years or so).
@@ -68,3 +74,136 @@
 
    You will also have dependencies on third-party libraries: to make nice-looking web pages; to run tests; for logging
    and auditing, etc.
+
+   It's easy enough to manually set up your dependencies, but when you switch to a different machine (or, if you're an
+   enterprise, when you hire a new developer or upgrade somebody's computer), you need to set up the dependencies
+   again.  If you have a lot of dependencies, and you depend on specific versions (which you will, since version
+   upgrades usually introduce bugs you probably don't want to have to deal with), you'll find that manually setting up
+   the dependencies again is a pain.
+
+   Besides, everybody uses Maven.  You should have some sort of Maven skillz.  Go get it.
+
+* Install and configure software
+
+** Java
+
+   =$JAVA_HOME= is the directory into which the Java SDK is installed.  There's nothing special about the directory;
+   this is just how documentation refers to it.
+
+** Eclipse
+
+   Typically there's no spiffy install program for Eclipse, since it's cross platform (meaning: runs on Windows, Linux,
+   Mac (as opposed to /some/ companies' definition of cross-platform, which means it runs on both Windows Phones /and/
+   Windows 7).
+
+   So, you just unzip it into some directory and run it from there.
+
+** Tomcat
+
+   =$CATALINA_HOME= is the directory into which Tomcat is installed (I think it used to be "Project Catalina").
+
+   The typical install uses port 8080, so you'll hit the "Yay, success!" page with a url like http://localhost:8080.
+
+   Be warned that the original web is /CASE SENSITIVE/, so you should make sure you get URL correct even in their case.
+
+** Maven
+
+   Not much to this one.  There's either an install program that puts in a "normal" location, or you unzip to whereever
+   you want and run it from there.  Do this /after/ you've installed Eclipse, because (I think) the install program will
+   find Eclipse and Do The Right Thing to integrate itself into Eclipse.
+
+   =mvn= is the Maven command-line command.
+
+* Documentation
+
+** Java Tools, API
+
+   You want to find the top-level "technical documentation" page.
+
+   Try here: http://www.oracle.com/technetwork/java/index.html.  Look for "Java SE" as a /technology/, then
+   "Documentation".  There should be a big, top-level link somewhere.  You want to wind up on a page that has both "Java
+   SE API Documentation" and "Java SE Tools Reference".
+
+   Try this: http://docs.oracle.com/javase/8/.
+
+** Eclipse
+
+   Good luck.  Built-in help or Google.  You kind of don't really need docs, though.
+
+** Tomcat
+
+   Comes with points to its own docs.  Once you get it installed and hit the "Success!" web page, you should find links
+   to the docs on that page.
+
+** Maven
+
+   Another "good luck".  The problem with Maven is that there's /too much/ documentation.
+
+   Let me see if I can give you the basics.
+
+*** What Maven does
+
+   Maven is a program with a lot of built-in rules for Java.  It knows what needs to generated and it knows how to
+   generate stuff.  Basically, it builds a tree of dependencies that looks something like this:
+
+   - Your final application =*.war= file, which depends on:
+     - One or more =*.class= files, which are compiled Java code, which, in turn, depend on:
+       - A =*.java= source code file for each =*.class= file
+     - One or more =*.xhtml=, =*.jsf=, and/or =*.jsp= files, which are the web UI front end for your web app
+     - Zero or more =*.js= files, which provide Javascript code to run in the web UI front end
+     - Zero or more external 3rd-party =*.jar= files which need to be downloaded at least once
+
+   Maven knows where they live (because it puts them there; more on that later) and it knows what needs to be recompiled
+   (based on file timestamps: source code modified later than binaries need to reprocessed to generate up-to-date
+   binaries).
+
+*** How you use Maven
+
+    Basically (after everything is all set up), you're going to issue the command (at the command prompt):
+
+    : mvn package
+
+    This makes all the magic happen.  3rd party stuff is downloaded.  Modified source code is compiled.  Tests are run.
+    A war file is created.
+
+    There are, of course, a hundred zillion other Maven commands and options, but that one is the driver.
+
+* Let's go!
+
+** Create a project in Eclipse
+
+   Open Eclipse, hit File | New Project, browse down to Maven, choose Maven Web App.
+
+   *Archetype:*  Maven will create your new project from a template you pick.  There are a lot of them.  In the
+   archetype filter text box, try typing "web".  Look for something simple and straightforward like
+   =maven-archetype-webapp= (nothing fancy).
+
+   *Group Id:*  This is the name of your company, backwards.  Sounds crazy, but there's a reason.  If you don't have a
+   company name, make one up, it'll (almost certainly, unless you pick something silly that everyone else will also
+   pick, like =amazing.com=) be ok.  The "backwards" part means you put the "com" part first, so if your awesome company
+   name is midnight-sun.com, your group id will be =com.midnight-sun=.
+
+   *Artifact Id:*  This is the name of your program.  If you're making a program to edit color gradients, you might call
+   it something like "Gradient Editor" (original, eh?).  Artifact name should probably be all lower case, with no
+   spaces: =gradient-editor=.
+
+   *Package name* is more-or-less automatically generated (hyphens become underscores, among other things).  Probably
+   shouldn't mess with it.
+
+   Maven may or may not create a "test" subdirectory for you, containing your unit tests.  We don't really care at this
+   point.
+
+   If you want to amuse yourself, switch to the command line, =cd= to the top-level directory where your new project is,
+   and try =mvn package=.  You should see a lot of dust, settling in "Success."
+
+   At this point, you're kind of on your own, although I have more notes (below).
+
+   Rename your output war file (in your =target= directory, generated by Maven) to something reasonable.  Maven probably
+   named it something like =gradient-editor-SNAPSHOT-0.0.1.war=.  Rename it to something like =gradient-editor.war=.
+
+   Pop over to your Tomcat welcome page, which should have a link to the manager web app.  Scroll down to the "WAR file
+   to deploy" section, choose your renamed .war file and deploy it.  You should wind up with another web app link you
+   can click on (in the list of running web apps the manager page shows you).
+
+   [Ok, that's enough for tonight.]
+   
