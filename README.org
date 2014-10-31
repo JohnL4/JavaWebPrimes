@@ -1,5 +1,5 @@
 				# -*- mode: org; fill-column: 120; -*-
-#+TITLE:     Note on creating a stupid simple Java web app
+#+TITLE:     Notes on creating a stupid simple Java web app
 #+AUTHOR:    John Lusk
 #+DATE:      2014-10-30 Thu
 #+DESCRIPTION:
