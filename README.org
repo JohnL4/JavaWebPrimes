@@ -1,0 +1,70 @@
+				# -*- mode: org; fill-column: 120; -*-
+#+TITLE:     Note on creating a stupid simple Java web app
+#+AUTHOR:    John Lusk
+#+DATE:      2014-10-30 Thu
+#+DESCRIPTION:
+#+KEYWORDS:
+#+LANGUAGE:  en
+#+OPTIONS:   H:3 num:t toc:t \n:nil @:t ::t |:t ^:t -:t f:t *:t <:t
+#+OPTIONS:   TeX:t LaTeX:t skip:nil d:nil todo:t pri:nil tags:not-in-toc
+#+INFOJS_OPT: view:nil toc:nil ltoc:t mouse:underline buttons:0 path:http://orgmode.org/org-info.js
+#+EXPORT_SELECT_TAGS: export
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+LINK_UP:   
+#+LINK_HOME: 
+#+XSLT:
+
+* Download software
+
+** Eclipse
+
+   Nice IDE.  Some people swear by NetBeans, I like Eclipse (mostly because I've been using it for 15 years or so).
+
+   http://eclipse.org
+
+   You'll need the Java EE version.
+
+** Tomcat
+
+   A "web application container", the standard simple one.  "Simple," of course, being a relative term.  Simple
+   compared to JBoss (stay away!).
+
+   A web app container is the the thing you drop your web app onto.  It's like a web server except that it can also
+   generate dynamic content.
+
+   Imaging getting Apache (a web server) and installilng it on your system.  Great, now you have a web server, now
+   what?  You still need to write some web pages and put them somewhere in the Apache directory structure.
+
+   A web app container is like that: you still need to write the web app.
+
+   The difference between a web server and web app container is that the former can only serve up "*static*" content.  You
+   can write some stuff (like this very file I'm writing right now) and serve up via a web server.  The content never
+   changes (unless I manually edit the files).
+
+   But, what if you want the content to change?  For instance, what if you want to display the current date and time?
+   You can't just write some html for that; you'd have to change it every minute.
+
+   "*Dynamic*" content is stuff that isn't the same every time somebody hits the web page.  The web server (web app
+   container) has to run some code to determine what content to generate.  You can do it with Apache with something
+   like "server side includes" (some truly ancient technology): a script that runs on the server, before the html page
+   is sent out, that generates some html.  This works, but there are better ways to develop large, complex
+   applications.  (And, by the way, every "large complex" app starts small.  If you make the wrong decisions early on,
+   you'll wind up with a mess later on.  This is one of the chief differences between systems that enable you write
+   "hello, world" apps easily (but don't scale well) and those that make "hello, world" really complex (but scale
+   better).
+
+   So, anyway... Tomcat is a web /app/ container, good at hosting applications that generate dynamic content.
+
+   If you're truly serious about enterprise development, you'll get something like JBoss, but we're not anywhere close
+   to that yet.  Something written for Tomcat will run just fine on JBoss, later.
+
+** Maven
+
+   This is the third piece of the puzzle: a build system.
+
+   Typically, your application will be composed of multiple files: one file per class, and many classes.  You could
+   always just recompile everything every time you build, for a small app.  For a big one, you'll want to just
+   recompile the files you edited since last time.
+
+   You will also have dependencies on third-party libraries: to make nice-looking web pages; to run tests; for logging
+   and auditing, etc.
