@@ -104,7 +104,8 @@
 
    The typical install uses port 8080, so you'll hit the "Yay, success!" page with a url like http://localhost:8080.
 
-   Be warned that the original web is /CASE SENSITIVE/, so you should make sure you get URL correct even in their case.
+   Be warned that the original web is /CASE SENSITIVE/, so you should make sure you get URLs correct even in their
+   case.
 
 ** Maven
 
@@ -132,8 +133,8 @@
 
 ** Tomcat
 
-   Comes with points to its own docs.  Once you get it installed and hit the "Success!" web page, you should find links
-   to the docs on that page.
+   Comes with pointers to its own docs.  Once you get it installed and hit the "Success!" web page, you should find
+   links to the docs on that page.
 
 ** Maven
 
@@ -198,6 +199,10 @@
     Create an empty directory somewhere to hold your project.  =cd= into it and issue the following command.
 
     : mvn archetype:generate -DgroupId=com.how_hard_can_it_be -DartifactId=Primes -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+
+    Note that this may actually create a project directory within your new directory.  If that happens, no biggie, just
+    move the new directory to where you want it (e.g., rename spurious higher-level directory, move inner directory up
+    to be peer of spurious directory, remove now-empty spurious directory).
 
     If you later want to develop the project using Eclipse, use Eclipse's "File | Import | Existing Maven Project"
     function.
